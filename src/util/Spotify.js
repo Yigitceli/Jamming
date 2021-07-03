@@ -1,6 +1,6 @@
 let accessToken;
 const clientId = "e5ee53b2b7d64f2594b0acba4474e09e";
-const redirectUri = "http://good-bag.surge.sh";
+const redirectUri = "https://jam-with-yigit.netlify.app";
 const Spotify = {
     
     getAccessToken () {
