@@ -1,6 +1,6 @@
 let accessToken;
 const clientId = "e5ee53b2b7d64f2594b0acba4474e09e";
-const redirectUri = "http://good-bag.surge.sh";
+const redirectUri = "http://localhost:3000";
 const Spotify = {
     
     getAccessToken () {
@@ -40,7 +40,7 @@ const Spotify = {
         const defaultAccessToken = Spotify.getAccessToken();
         const header = {Authorization: `Bearer ${defaultAccessToken}`};
         let defaultClientId;
-        fetch("https://api.spotify.com/v1/me", {headers:header}).then(response => {
+        return fetch("https://api.spotify.com/v1/me", {headers:header}).then(response => {
             return response.json().then(jsonResponse => {
                 defaultClientId = jsonResponse.id;
                 return fetch(`https://api.spotify.com/v1/users/${defaultClientId}/playlists`, {method:"POST", headers:header, body:JSON.stringify({name: playlist})}).then(response => response.json()).then(jsonResponse => {

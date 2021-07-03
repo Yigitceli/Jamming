@@ -22,8 +22,15 @@ class App extends React.Component{
   }
   
   search(term) {
+    
     Spotify.search(term).then(response => {
-      this.setState({searchResults: response})
+      let finalArray = response.filter(item => {
+        return !this.state.playlistTracks.some(item2 => {
+          return item.id === item2.id;
+        })
+      });
+      
+      this.setState({searchResults: finalArray});
     })
   }
   savePlaylist() {
@@ -36,17 +43,25 @@ class App extends React.Component{
   addTrack(track) {
     
     let tracks = this.state.playlistTracks;
+    let searchedTracks = this.state.searchResults;
+    let indexOfElement = searchedTracks.indexOf(track);
     if(tracks.find(savedTrack => savedTrack.id === track.id)){
       return;
     }
     tracks.push(track);
-    this.setState({playlistTracks: tracks});
+    searchedTracks.splice(indexOfElement, 1);
+    this.setState({playlistTracks: tracks, searchResults: searchedTracks});
+    
+    
     
   }
   removeTrack(track){
     let tracks = this.state.playlistTracks;
+    let searchedTracks = this.state.searchResults;
+    
     tracks = tracks.filter(crTrack => crTrack.id !== track.id);
-    this.setState({playlistTracks:tracks});
+    searchedTracks.unshift(track)
+    this.setState({playlistTracks:tracks, searchResults: searchedTracks});
   
   }
   updatePlaylistName(name){
@@ -54,6 +69,7 @@ class App extends React.Component{
 
   }
   render() {
+    
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
