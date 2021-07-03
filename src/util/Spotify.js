@@ -40,7 +40,7 @@ const Spotify = {
         const defaultAccessToken = Spotify.getAccessToken();
         const header = {Authorization: `Bearer ${defaultAccessToken}`};
         let defaultClientId;
-        return fetch("https://api.spotify.com/v1/me", {headers:header}).then(response => {
+        fetch("https://api.spotify.com/v1/me", {headers:header}).then(response => {
             return response.json().then(jsonResponse => {
                 defaultClientId = jsonResponse.id;
                 return fetch(`https://api.spotify.com/v1/users/${defaultClientId}/playlists`, {method:"POST", headers:header, body:JSON.stringify({name: playlist})}).then(response => response.json()).then(jsonResponse => {
